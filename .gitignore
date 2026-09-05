@@ -1,0 +1,12 @@
+node_modules/
+.pnpm-store/
+.vercel/
+.xdg-data/
+.appdata/
+.localappdata/
+.userprofile/
+vercel-static/
+vercel-public/
+vercel-output/
+*.log
+deployment-check.png
