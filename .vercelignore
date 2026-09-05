@@ -1,0 +1,14 @@
+deployment-check.png
+prototype-check.png
+server.out.log
+server.err.log
+*.log
+node_modules
+.pnpm-store
+.vercel
+.vercel-data
+.xdg-data
+.appdata
+.localappdata
+.userprofile
+

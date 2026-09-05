@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FitCal 小程序原型</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="shell" aria-label="FitCal health management mini app prototype">
+      <section class="app" data-screen="home">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">今日 · 8月2日</p>
+            <h1>FitCal</h1>
+          </div>
+          <button class="sync-pill" id="syncButton" type="button">云端已同步</button>
+        </header>
+
+        <section class="screen active" id="homeScreen">
+          <div class="hero">
+            <div>
+              <p class="section-label">健康分</p>
+              <div class="score-row">
+                <strong id="healthScore">86</strong>
+                <span>/100</span>
+              </div>
+              <p class="confidence" id="confidenceText">高可信 · 三餐和运动已确认</p>
+            </div>
+            <button class="primary ghost-on-dark" id="scoreExplainButton" type="button">查看原因</button>
+          </div>
+
+          <div class="metrics-grid" aria-label="今日热量概览">
+            <article class="metric">
+              <span>摄入</span>
+              <strong id="intakeMetric">1,560</strong>
+              <small>kcal</small>
+            </article>
+            <article class="metric">
+              <span>消耗</span>
+              <strong id="burnMetric">430</strong>
+              <small>kcal</small>
+            </article>
+            <article class="metric">
+              <span>热量差</span>
+              <strong id="balanceMetric">-390</strong>
+              <small>kcal</small>
+            </article>
+          </div>
+
+          <section class="panel">
+            <div class="panel-head">
+              <h2>营养结构</h2>
+              <span id="macroStatus">蛋白质偏低</span>
+            </div>
+            <div class="macro-list" id="macroList"></div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-head">
+              <h2>今天三问</h2>
+              <span>身材管理判断</span>
+            </div>
+            <div class="answer-list" id="answerList"></div>
+          </section>
+
+          <section class="photo-strip" aria-label="今日饮食照片">
+            <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=360&q=80" alt="蔬菜沙拉餐盘" />
+            <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=360&q=80" alt="健康谷物碗" />
+            <img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=360&q=80" alt="健身房训练" />
+          </section>
+        </section>
+
+        <section class="screen" id="logScreen">
+          <section class="panel">
+            <div class="panel-head">
+              <h2>拍照识别饮食</h2>
+              <span>确认后计入评分</span>
+            </div>
+            <div class="capture-preview" id="capturePreview">
+              <img src="https://images.unsplash.com/photo-1543362906-acfc16c67564?auto=format&fit=crop&w=720&q=80" alt="运动餐便当" />
+              <div>
+                <strong>晚餐待确认</strong>
+                <p>AI 识别结果需要校准份量</p>
+              </div>
+            </div>
+            <button class="primary full" id="recognizeButton" type="button">拍照识别一餐</button>
+            <div class="recognition" id="recognitionPanel" hidden>
+              <div class="meal-select">
+                <label for="mealType">餐次</label>
+                <select id="mealType">
+                  <option value="breakfast">早餐</option>
+                  <option value="lunch">午餐</option>
+                  <option value="dinner" selected>晚餐</option>
+                  <option value="snack">加餐</option>
+                </select>
+              </div>
+              <div id="detectedFoods"></div>
+              <button class="primary full" id="saveMealButton" type="button">确认并保存</button>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-head">
+              <h2>今日饮食</h2>
+              <span id="mealCount">2 餐已确认</span>
+            </div>
+            <div class="timeline" id="mealTimeline"></div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-head">
+              <h2>运动消耗</h2>
+              <span>手动记录</span>
+            </div>
+            <form class="exercise-form" id="exerciseForm">
+              <label>
+                运动类型
+                <select id="exerciseType">
+                  <option value="力量训练">力量训练</option>
+                  <option value="跑步">跑步</option>
+                  <option value="骑行">骑行</option>
+                  <option value="游泳">游泳</option>
+                </select>
+              </label>
+              <label>
+                时长
+                <input id="exerciseMinutes" type="number" min="5" max="240" value="45" />
+              </label>
+              <label>
+                强度
+                <select id="exerciseIntensity">
+                  <option value="0.08">低</option>
+                  <option value="0.11" selected>中</option>
+                  <option value="0.15">高</option>
+                </select>
+              </label>
+              <output id="exerciseEstimate">预计 346 kcal</output>
+              <button class="primary full" type="submit">保存运动</button>
+            </form>
+            <div class="timeline compact" id="exerciseTimeline"></div>
+          </section>
+        </section>
+
+        <section class="screen" id="trendScreen">
+          <section class="panel">
+            <div class="panel-head">
+              <h2>3 天趋势</h2>
+              <span>基础留存指标</span>
+            </div>
+            <div class="trend-chart" id="trendChart"></div>
+          </section>
+          <section class="panel">
+            <div class="panel-head">
+              <h2>复盘</h2>
+              <span>低诊断表达</span>
+            </div>
+            <div class="insight-stack" id="trendInsights"></div>
+          </section>
+        </section>
+
+        <section class="screen" id="profileScreen">
+          <section class="panel">
+            <div class="panel-head">
+              <h2>目标</h2>
+              <span>健身控重</span>
+            </div>
+            <div class="goal-grid">
+              <label>
+                模式
+                <select id="goalMode">
+                  <option value="fatLoss" selected>减脂</option>
+                  <option value="maintain">维持</option>
+                  <option value="muscleGain">增肌</option>
+                </select>
+              </label>
+              <label>
+                每日目标
+                <input id="calorieTarget" type="number" min="1200" max="4000" step="50" value="2100" />
+              </label>
+              <label>
+                蛋白质目标
+                <input id="proteinTarget" type="number" min="50" max="280" step="5" value="150" />
+              </label>
+              <label>
+                运动目标
+                <input id="burnTarget" type="number" min="100" max="1200" step="25" value="450" />
+              </label>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-head">
+              <h2>云同步与隐私</h2>
+              <span id="syncTime">18:42</span>
+            </div>
+            <label class="switch-row">
+              <span>
+                云端同步结构化记录
+                <small>热量、营养、运动、目标</small>
+              </span>
+              <input id="cloudSync" type="checkbox" checked />
+            </label>
+            <label class="switch-row">
+              <span>
+                长期保存饮食照片
+                <small>关闭时仅保留识别后的结构化结果</small>
+              </span>
+              <input id="photoStorage" type="checkbox" />
+            </label>
+          </section>
+
+          <p class="disclaimer">本工具仅用于健康管理参考，不替代医生、营养师或专业教练建议。</p>
+        </section>
+
+        <nav class="tabbar" aria-label="主导航">
+          <button class="tab active" data-target="homeScreen" type="button">今日</button>
+          <button class="tab" data-target="logScreen" type="button">记录</button>
+          <button class="tab" data-target="trendScreen" type="button">趋势</button>
+          <button class="tab" data-target="profileScreen" type="button">我的</button>
+        </nav>
+      </section>
+    </main>
+
+    <dialog class="score-dialog" id="scoreDialog">
+      <div class="dialog-head">
+        <h2>健康分来源</h2>
+        <button id="closeDialog" type="button" aria-label="关闭">×</button>
+      </div>
+      <div id="scoreBreakdown"></div>
+    </dialog>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
+
