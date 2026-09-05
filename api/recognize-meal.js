@@ -102,10 +102,21 @@ module.exports = async function recognizeMeal(request, response) {
 
     const result = await openaiResponse.json();
     if (!openaiResponse.ok) {
-      const status = openaiResponse.status === 429 ? 429 : 502;
-      const message = openaiResponse.status === 429
-        ? "识别请求较多或 API 额度不足，请稍后重试"
-        : "AI 识别服务请求失败，请稍后重试";
+      const errorCode = String(result.error?.code || result.error?.type || "").toLowerCase();
+      const errorMessage = String(result.error?.message || "").toLowerCase();
+      const quotaExhausted = errorCode.includes("quota")
+        || errorMessage.includes("quota")
+        || errorMessage.includes("billing")
+        || errorMessage.includes("credit")
+        || errorMessage.includes("balance");
+      const status = openaiResponse.status === 401 ? 503 : openaiResponse.status === 429 ? 429 : 502;
+      const message = openaiResponse.status === 401
+        ? "识别服务密钥无效或已过期，请联系管理员"
+        : quotaExhausted
+          ? "OpenAI API 当前没有可用额度，请先检查 API 账单或使用限额"
+          : openaiResponse.status === 429
+            ? "识别请求过于频繁，请稍后重试"
+            : "AI 识别服务请求失败，请稍后重试";
       console.error("OpenAI meal recognition failed", openaiResponse.status, result.error?.code || "unknown");
       return sendJson(response, status, { error: message });
     }
