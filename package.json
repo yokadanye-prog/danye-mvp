@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "node scripts/local-server.js",
+    "dev": "node --env-file-if-exists=.env.local scripts/local-server.js",
     "build": "node scripts/build-static.js",
-    "check": "node --check app.js && node --check scripts/local-server.js && node --check scripts/build-static.js"
+    "check": "node --check app.js && node --check api/recognize-meal.js && node --check scripts/local-server.js && node --check scripts/build-static.js"
   }
 }
 

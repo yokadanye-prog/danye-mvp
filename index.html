@@ -11,11 +11,21 @@
       <section class="app" data-screen="home">
         <header class="topbar">
           <div>
-            <p class="eyebrow">今日 · 8月2日</p>
+            <p class="eyebrow" id="selectedDateLabel">今日</p>
             <h1>FitCal</h1>
           </div>
           <button class="sync-pill" id="syncButton" type="button">本机已保存</button>
         </header>
+
+        <section class="date-navigator" aria-label="按日期查看记录">
+          <div class="month-controls">
+            <button class="icon-button" id="previousMonthButton" type="button" aria-label="上个月" title="上个月">‹</button>
+            <strong id="monthLabel">本月</strong>
+            <button class="today-button" id="todayButton" type="button">今天</button>
+            <button class="icon-button" id="nextMonthButton" type="button" aria-label="下个月" title="下个月">›</button>
+          </div>
+          <div class="day-track" id="dayTrack" role="list" aria-label="本月日期"></div>
+        </section>
 
         <section class="screen active" id="homeScreen">
           <div class="hero">
@@ -78,14 +88,19 @@
               <span>确认后计入评分</span>
             </div>
             <div class="capture-preview" id="capturePreview">
-              <img src="https://images.unsplash.com/photo-1543362906-acfc16c67564?auto=format&fit=crop&w=720&q=80" alt="运动餐便当" />
+              <img id="mealPhotoPreview" src="https://images.unsplash.com/photo-1543362906-acfc16c67564?auto=format&fit=crop&w=720&q=80" alt="待识别餐食预览" />
               <div>
-                <strong>晚餐待确认</strong>
-                <p>AI 识别结果需要校准份量</p>
+                <strong id="photoTitle">选择一张餐食照片</strong>
+                <p id="recognitionStatus" role="status">支持手机拍照或从相册选择，识别后请校准份量</p>
               </div>
             </div>
-            <button class="primary full" id="recognizeButton" type="button">拍照识别一餐</button>
+            <input id="mealPhotoInput" type="file" accept="image/jpeg,image/png,image/webp" capture="environment" hidden />
+            <div class="capture-actions">
+              <button class="secondary full" id="choosePhotoButton" type="button">拍照或选择照片</button>
+              <button class="primary full" id="recognizeButton" type="button" disabled>识别食物与热量</button>
+            </div>
             <div class="recognition" id="recognitionPanel" hidden>
+              <p class="recognition-note" id="recognitionNote"></p>
               <div class="meal-select">
                 <label for="mealType">餐次</label>
                 <select id="mealType">

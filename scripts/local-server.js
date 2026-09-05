@@ -5,6 +5,7 @@ const path = require("path");
 const root = path.resolve(__dirname, "..");
 const port = Number(process.env.PORT || 5173);
 const host = "127.0.0.1";
+const recognizeMeal = require("../api/recognize-meal");
 
 const types = {
   ".html": "text/html; charset=utf-8",
@@ -17,8 +18,33 @@ const types = {
   ".svg": "image/svg+xml",
 };
 
+function handleApi(req, res) {
+  let body = "";
+  req.on("data", (chunk) => {
+    body += chunk;
+    if (body.length > 3_000_000) req.destroy();
+  });
+  req.on("end", async () => {
+    try {
+      req.body = body ? JSON.parse(body) : {};
+    } catch {
+      req.body = {};
+    }
+    res.status = (statusCode) => {
+      res.statusCode = statusCode;
+      return res;
+    };
+    res.json = (value) => res.end(JSON.stringify(value));
+    await recognizeMeal(req, res);
+  });
+}
+
 const server = http.createServer((req, res) => {
   const url = new URL(req.url, `http://${host}:${port}`);
+  if (url.pathname === "/api/recognize-meal") {
+    handleApi(req, res);
+    return;
+  }
   const requested = url.pathname === "/" ? "/index.html" : decodeURIComponent(url.pathname);
   const resolved = path.resolve(root, `.${requested}`);
 
