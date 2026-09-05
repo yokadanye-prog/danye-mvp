@@ -2,7 +2,7 @@ const http = require("http");
 const fs = require("fs");
 const path = require("path");
 
-const root = __dirname;
+const root = path.resolve(__dirname, "..");
 const port = Number(process.env.PORT || 5173);
 const host = "127.0.0.1";
 
@@ -44,6 +44,6 @@ const server = http.createServer((req, res) => {
 });
 
 server.listen(port, host, () => {
-  console.log(`FitCal prototype deployed at http://${host}:${port}`);
+  console.log(`FitCal local preview: http://${host}:${port}`);
 });
 

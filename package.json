@@ -3,11 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "node server.js",
-    "check": "node --check app.js && node --check server.js"
-  },
-  "devDependencies": {
-    "vercel": "^59.11.2"
+    "dev": "node scripts/local-server.js",
+    "build": "node scripts/build-static.js",
+    "check": "node --check app.js && node --check scripts/local-server.js && node --check scripts/build-static.js"
   }
 }
 

@@ -8,5 +8,7 @@ node_modules/
 vercel-static/
 vercel-public/
 vercel-output/
+dist/
 *.log
 deployment-check.png
+
