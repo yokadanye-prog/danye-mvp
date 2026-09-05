@@ -32,6 +32,40 @@ const state = {
   detectedFoods: [],
 };
 
+const storageKey = "fitcal-local-state-v1";
+const demoState = JSON.parse(JSON.stringify(state));
+const savedState = loadSavedState();
+
+if (savedState) {
+  state.targets = { ...state.targets, ...savedState.targets };
+  state.meals = Array.isArray(savedState.meals) ? savedState.meals : state.meals;
+  state.exercises = Array.isArray(savedState.exercises) ? savedState.exercises : state.exercises;
+}
+
+let editingMealIndex = null;
+let editingExerciseIndex = null;
+
+function loadSavedState() {
+  try {
+    return JSON.parse(window.localStorage.getItem(storageKey));
+  } catch {
+    return null;
+  }
+}
+
+function persistState() {
+  window.localStorage.setItem(
+    storageKey,
+    JSON.stringify({ targets: state.targets, meals: state.meals, exercises: state.exercises }),
+  );
+  document.getElementById("syncButton").textContent = "本机已保存";
+}
+
+function commitState() {
+  persistState();
+  render();
+}
+
 const mealLabels = {
   breakfast: "早餐",
   lunch: "午餐",
@@ -117,6 +151,16 @@ function formatNumber(value) {
   return Math.round(value).toLocaleString("zh-CN");
 }
 
+function escapeHtml(value) {
+  return String(value).replace(/[&<>'"]/g, (character) => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    "'": "&#39;",
+    '"': "&quot;",
+  })[character]);
+}
+
 function renderMacros(totals) {
   const macros = [
     { label: "蛋白质", value: totals.protein, target: state.targets.protein, unit: "g", color: "var(--green)" },
@@ -183,16 +227,20 @@ function renderAnswers(totals) {
 function renderTimeline() {
   document.getElementById("mealCount").textContent = `${state.meals.length} 餐已确认`;
   document.getElementById("mealTimeline").innerHTML = state.meals
-    .map((meal) => {
+    .map((meal, index) => {
       const totals = mealTotals(meal);
-      const foods = meal.foods.map((food) => food.name).join("、");
+      const foods = meal.foods.map((food) => escapeHtml(food.name)).join("、");
       return `
         <div class="timeline-row">
           <div>
             <strong>${meal.label}</strong>
             <p>${foods}</p>
           </div>
-          <span>${formatNumber(totals.calories)} kcal</span>
+          <div class="row-actions">
+            <span>${formatNumber(totals.calories)} kcal</span>
+            <button class="row-action" type="button" data-edit-meal="${index}">编辑</button>
+            <button class="row-action danger" type="button" data-delete-meal="${index}">删除</button>
+          </div>
         </div>
       `;
     })
@@ -200,13 +248,17 @@ function renderTimeline() {
 
   document.getElementById("exerciseTimeline").innerHTML = state.exercises
     .map(
-      (exercise) => `
+      (exercise, index) => `
         <div class="timeline-row">
           <div>
-            <strong>${exercise.type}</strong>
+            <strong>${escapeHtml(exercise.type)}</strong>
             <p>${exercise.minutes} 分钟 · ${exercise.intensity}强度</p>
           </div>
-          <span>${formatNumber(exercise.calories)} kcal</span>
+          <div class="row-actions">
+            <span>${formatNumber(exercise.calories)} kcal</span>
+            <button class="row-action" type="button" data-edit-exercise="${index}">编辑</button>
+            <button class="row-action danger" type="button" data-delete-exercise="${index}">删除</button>
+          </div>
         </div>
       `,
     )
@@ -269,6 +321,10 @@ function render() {
   renderTimeline();
   renderTrend(totals, scoreData.score);
   renderScoreDialog(scoreData);
+  document.getElementById("goalMode").value = state.targets.mode;
+  document.getElementById("calorieTarget").value = state.targets.calories;
+  document.getElementById("proteinTarget").value = state.targets.protein;
+  document.getElementById("burnTarget").value = state.targets.burn;
 }
 
 function renderDetectedFoods() {
@@ -291,6 +347,68 @@ function estimateExercise() {
   const minutes = Number(document.getElementById("exerciseMinutes").value);
   const factor = Number(document.getElementById("exerciseIntensity").value);
   return Math.round(minutes * factor * 70);
+}
+
+function foodEditorRow(food = {}) {
+  const values = {
+    name: food.name || "",
+    grams: food.grams || 100,
+    kcalPer100: food.kcalPer100 || 0,
+    proteinPer100: food.proteinPer100 || 0,
+    carbsPer100: food.carbsPer100 || 0,
+    fatPer100: food.fatPer100 || 0,
+  };
+  return `
+    <div class="food-editor" data-editor-food>
+      <label>食物名称<input data-field="name" value="${escapeHtml(values.name)}" required /></label>
+      <label>份量(g)<input data-field="grams" type="number" min="1" value="${values.grams}" required /></label>
+      <label>热量/100g<input data-field="kcalPer100" type="number" min="0" value="${values.kcalPer100}" required /></label>
+      <label>蛋白/100g<input data-field="proteinPer100" type="number" min="0" value="${values.proteinPer100}" required /></label>
+      <label>碳水/100g<input data-field="carbsPer100" type="number" min="0" value="${values.carbsPer100}" required /></label>
+      <label>脂肪/100g<input data-field="fatPer100" type="number" min="0" value="${values.fatPer100}" required /></label>
+      <button class="row-action danger remove-food" type="button" data-remove-food>删除这项食物</button>
+    </div>
+  `;
+}
+
+function openMealEditor(index = null) {
+  editingMealIndex = index;
+  const meal = index === null ? null : state.meals[index];
+  document.getElementById("mealDialogTitle").textContent = meal ? `编辑${meal.label}` : "新增一餐";
+  document.getElementById("editorMealType").value = meal?.type || "dinner";
+  document.getElementById("editorFoods").innerHTML = (meal?.foods || [{}]).map(foodEditorRow).join("");
+  document.getElementById("mealDialog").showModal();
+}
+
+function closeMealEditor() {
+  editingMealIndex = null;
+  document.getElementById("mealDialog").close();
+}
+
+function readMealEditorFoods() {
+  return [...document.querySelectorAll("[data-editor-food]")]
+    .map((row) => {
+      const value = (field) => row.querySelector(`[data-field="${field}"]`).value;
+      return {
+        name: value("name").trim(),
+        grams: Number(value("grams")),
+        kcalPer100: Number(value("kcalPer100")),
+        proteinPer100: Number(value("proteinPer100")),
+        carbsPer100: Number(value("carbsPer100")),
+        fatPer100: Number(value("fatPer100")),
+      };
+    })
+    .filter((food) => food.name && food.grams > 0);
+}
+
+function resetExerciseForm() {
+  editingExerciseIndex = null;
+  document.getElementById("exerciseForm").reset();
+  document.getElementById("exerciseMinutes").value = 45;
+  document.getElementById("exerciseIntensity").value = "0.11";
+  document.getElementById("exerciseEstimate").textContent = `预计 ${estimateExercise()} kcal`;
+  document.getElementById("saveExerciseButton").textContent = "保存运动";
+  document.getElementById("cancelExerciseEdit").hidden = true;
 }
 
 document.querySelectorAll(".tab").forEach((tab) => {
@@ -329,7 +447,7 @@ document.getElementById("saveMealButton").addEventListener("click", () => {
   else state.meals.push(meal);
   state.detectedFoods = [];
   document.getElementById("recognitionPanel").hidden = true;
-  render();
+  commitState();
 });
 
 ["exerciseMinutes", "exerciseIntensity"].forEach((id) => {
@@ -341,13 +459,16 @@ document.getElementById("saveMealButton").addEventListener("click", () => {
 document.getElementById("exerciseForm").addEventListener("submit", (event) => {
   event.preventDefault();
   const intensityLabel = document.getElementById("exerciseIntensity").selectedOptions[0].textContent;
-  state.exercises.unshift({
+  const exercise = {
     type: document.getElementById("exerciseType").value,
     minutes: Number(document.getElementById("exerciseMinutes").value),
     intensity: intensityLabel,
     calories: estimateExercise(),
-  });
-  render();
+  };
+  if (editingExerciseIndex === null) state.exercises.unshift(exercise);
+  else state.exercises.splice(editingExerciseIndex, 1, exercise);
+  resetExerciseForm();
+  commitState();
 });
 
 document.getElementById("goalMode").addEventListener("change", (event) => {
@@ -356,7 +477,7 @@ document.getElementById("goalMode").addEventListener("change", (event) => {
   if (event.target.value === "maintain") state.targets.calories = 2300;
   if (event.target.value === "fatLoss") state.targets.calories = 2100;
   document.getElementById("calorieTarget").value = state.targets.calories;
-  render();
+  commitState();
 });
 
 [
@@ -366,24 +487,83 @@ document.getElementById("goalMode").addEventListener("change", (event) => {
 ].forEach(([id, key]) => {
   document.getElementById(id).addEventListener("input", (event) => {
     state.targets[key] = Number(event.target.value);
-    render();
+    commitState();
   });
-});
-
-document.getElementById("cloudSync").addEventListener("change", (event) => {
-  document.getElementById("syncButton").textContent = event.target.checked ? "云端已同步" : "仅本机记录";
-});
-
-document.getElementById("photoStorage").addEventListener("change", (event) => {
-  document.getElementById("syncTime").textContent = event.target.checked ? "照片已授权" : "18:42";
 });
 
 document.getElementById("syncButton").addEventListener("click", () => {
-  const now = new Date();
-  document.getElementById("syncTime").textContent = now.toLocaleTimeString("zh-CN", {
+  persistState();
+  document.getElementById("syncTime").textContent = new Date().toLocaleTimeString("zh-CN", {
     hour: "2-digit",
     minute: "2-digit",
   });
+});
+
+document.getElementById("addMealButton").addEventListener("click", () => openMealEditor());
+document.getElementById("closeMealDialog").addEventListener("click", closeMealEditor);
+document.getElementById("addFoodButton").addEventListener("click", () => {
+  document.getElementById("editorFoods").insertAdjacentHTML("beforeend", foodEditorRow());
+});
+
+document.getElementById("editorFoods").addEventListener("click", (event) => {
+  const button = event.target.closest("[data-remove-food]");
+  if (!button) return;
+  const rows = document.querySelectorAll("[data-editor-food]");
+  if (rows.length === 1) return;
+  button.closest("[data-editor-food]").remove();
+});
+
+document.getElementById("mealEditorForm").addEventListener("submit", (event) => {
+  event.preventDefault();
+  const foods = readMealEditorFoods();
+  if (!foods.length) return;
+  const type = document.getElementById("editorMealType").value;
+  const meal = { type, label: mealLabels[type], confirmed: true, foods };
+  if (editingMealIndex !== null) state.meals.splice(editingMealIndex, 1, meal);
+  else {
+    const existing = state.meals.findIndex((item) => item.type === type);
+    if (existing >= 0) state.meals[existing].foods.push(...foods);
+    else state.meals.push(meal);
+  }
+  closeMealEditor();
+  commitState();
+});
+
+document.getElementById("mealTimeline").addEventListener("click", (event) => {
+  const edit = event.target.closest("[data-edit-meal]");
+  const remove = event.target.closest("[data-delete-meal]");
+  if (edit) openMealEditor(Number(edit.dataset.editMeal));
+  if (remove && window.confirm("删除这餐记录？")) {
+    state.meals.splice(Number(remove.dataset.deleteMeal), 1);
+    commitState();
+  }
+});
+
+document.getElementById("exerciseTimeline").addEventListener("click", (event) => {
+  const edit = event.target.closest("[data-edit-exercise]");
+  const remove = event.target.closest("[data-delete-exercise]");
+  if (edit) {
+    editingExerciseIndex = Number(edit.dataset.editExercise);
+    const exercise = state.exercises[editingExerciseIndex];
+    document.getElementById("exerciseType").value = exercise.type;
+    document.getElementById("exerciseMinutes").value = exercise.minutes;
+    document.getElementById("exerciseIntensity").value = { 低: "0.08", 中: "0.11", 高: "0.15" }[exercise.intensity] || "0.11";
+    document.getElementById("exerciseEstimate").textContent = `预计 ${estimateExercise()} kcal`;
+    document.getElementById("saveExerciseButton").textContent = "更新运动";
+    document.getElementById("cancelExerciseEdit").hidden = false;
+  }
+  if (remove && window.confirm("删除这条运动记录？")) {
+    state.exercises.splice(Number(remove.dataset.deleteExercise), 1);
+    commitState();
+  }
+});
+
+document.getElementById("cancelExerciseEdit").addEventListener("click", resetExerciseForm);
+document.getElementById("resetDataButton").addEventListener("click", () => {
+  if (!window.confirm("恢复演示数据会删除当前浏览器中的记录，继续吗？")) return;
+  Object.assign(state, JSON.parse(JSON.stringify(demoState)));
+  resetExerciseForm();
+  commitState();
 });
 
 document.getElementById("scoreExplainButton").addEventListener("click", () => {

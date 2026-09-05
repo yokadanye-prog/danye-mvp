@@ -14,7 +14,7 @@
             <p class="eyebrow">今日 · 8月2日</p>
             <h1>FitCal</h1>
           </div>
-          <button class="sync-pill" id="syncButton" type="button">云端已同步</button>
+          <button class="sync-pill" id="syncButton" type="button">本机已保存</button>
         </header>
 
         <section class="screen active" id="homeScreen">
@@ -103,7 +103,7 @@
           <section class="panel">
             <div class="panel-head">
               <h2>今日饮食</h2>
-              <span id="mealCount">2 餐已确认</span>
+              <div class="panel-actions"><span id="mealCount">2 餐已确认</span><button class="text-action" id="addMealButton" type="button">新增</button></div>
             </div>
             <div class="timeline" id="mealTimeline"></div>
           </section>
@@ -136,7 +136,8 @@
                 </select>
               </label>
               <output id="exerciseEstimate">预计 346 kcal</output>
-              <button class="primary full" type="submit">保存运动</button>
+              <button class="primary full" id="saveExerciseButton" type="submit">保存运动</button>
+              <button class="secondary full" id="cancelExerciseEdit" type="button" hidden>取消编辑</button>
             </form>
             <div class="timeline compact" id="exerciseTimeline"></div>
           </section>
@@ -191,23 +192,11 @@
 
           <section class="panel">
             <div class="panel-head">
-              <h2>云同步与隐私</h2>
-              <span id="syncTime">18:42</span>
+              <h2>本地数据</h2>
+              <span id="syncTime">本机浏览器</span>
             </div>
-            <label class="switch-row">
-              <span>
-                云端同步结构化记录
-                <small>热量、营养、运动、目标</small>
-              </span>
-              <input id="cloudSync" type="checkbox" checked />
-            </label>
-            <label class="switch-row">
-              <span>
-                长期保存饮食照片
-                <small>关闭时仅保留识别后的结构化结果</small>
-              </span>
-              <input id="photoStorage" type="checkbox" />
-            </label>
+            <p class="local-note">饮食、运动和目标保存在当前浏览器。清除浏览器数据后记录会被移除。</p>
+            <button class="secondary full" id="resetDataButton" type="button">恢复演示数据</button>
           </section>
 
           <p class="disclaimer">本工具仅用于健康管理参考，不替代医生、营养师或专业教练建议。</p>
@@ -228,6 +217,27 @@
         <button id="closeDialog" type="button" aria-label="关闭">×</button>
       </div>
       <div id="scoreBreakdown"></div>
+    </dialog>
+
+    <dialog class="score-dialog meal-dialog" id="mealDialog">
+      <div class="dialog-head">
+        <h2 id="mealDialogTitle">新增一餐</h2>
+        <button id="closeMealDialog" type="button" aria-label="关闭">×</button>
+      </div>
+      <form id="mealEditorForm" class="meal-editor-form">
+        <label>
+          餐次
+          <select id="editorMealType">
+            <option value="breakfast">早餐</option>
+            <option value="lunch">午餐</option>
+            <option value="dinner">晚餐</option>
+            <option value="snack">加餐</option>
+          </select>
+        </label>
+        <div id="editorFoods" class="editor-foods"></div>
+        <button class="secondary full" id="addFoodButton" type="button">添加食物</button>
+        <button class="primary full" type="submit">保存餐食</button>
+      </form>
     </dialog>
 
     <script src="./app.js"></script>

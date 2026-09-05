@@ -216,6 +216,34 @@ h2 {
   margin-bottom: 12px;
 }
 
+.panel-actions,
+.row-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.text-action,
+.row-action,
+.secondary {
+  border: 1px solid var(--line);
+  background: #fff;
+  color: var(--green);
+  border-radius: 8px;
+  min-height: 32px;
+  padding: 0 9px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.row-action.danger {
+  color: #b54735;
+}
+
+.secondary {
+  color: var(--ink);
+}
+
 .macro-list,
 .answer-list,
 .insight-stack,
@@ -239,6 +267,16 @@ h2 {
   align-items: center;
   justify-content: space-between;
   gap: 12px;
+}
+
+.timeline-row > div:first-child {
+  min-width: 0;
+}
+
+.timeline-row p {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .macro-meta span,
@@ -498,6 +536,52 @@ label {
   border-radius: 8px;
   padding: 14px;
   color: var(--ink);
+}
+
+.meal-dialog {
+  max-height: min(720px, calc(100vh - 32px));
+  overflow: auto;
+}
+
+.meal-editor-form,
+.editor-foods,
+.food-editor {
+  display: grid;
+  gap: 10px;
+}
+
+.food-editor {
+  grid-template-columns: repeat(2, 1fr);
+  padding: 12px 0;
+  border-top: 1px solid var(--line);
+}
+
+.food-editor label:first-child {
+  grid-column: 1 / -1;
+}
+
+.food-editor input,
+.meal-editor-form select {
+  width: 100%;
+  min-height: 38px;
+  margin-top: 4px;
+  padding: 8px 9px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--ink);
+}
+
+.remove-food {
+  grid-column: 1 / -1;
+  justify-self: end;
+}
+
+.local-note {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.5;
+  margin-bottom: 12px;
 }
 
 .score-dialog::backdrop {
