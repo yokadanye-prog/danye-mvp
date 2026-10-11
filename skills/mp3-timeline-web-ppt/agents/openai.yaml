@@ -1,0 +1,4 @@
+interface:
+  display_name: "MP3 时间轴动态 PPT"
+  short_description: "用完整 MP3 与 SRT 生成可自动录制的动态 PPT 网站"
+  default_prompt: "使用 $mp3-timeline-web-ppt 检查我已提供的 MP3、SRT 和内容材料，通读可用原文生成封面与页面计划，让我从五套视觉方向和文字密度中确认方案，再制作并完整测试自动切换的动态 PPT 网站。"
