@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="760" viewBox="0 0 1280 760">
+<rect width="1280" height="760" fill="#f3f5f7"/>
+<rect x="50" y="50" width="1180" height="660" rx="28" fill="white" stroke="#d5dce3"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#142333">
+<text x="100" y="135" font-size="40" font-weight="700">鲁班工坊 安装依赖验收卡</text>
+<text x="100" y="187" font-size="25" fill="#4d6374">Video Replica Jiangling 2026 年 10 月 29 日</text>
+<text x="100" y="265" font-size="29" fill="#156545">三个完整 Skill 随包提供</text>
+<text x="100" y="320" font-size="27">结构检查 FAIL 3 → 0</text>
+<text x="660" y="320" font-size="27">安装边界测试 5 项通过</text>
+<text x="100" y="382" font-size="25">配套 Skill 安装说明</text>
+<text x="660" y="382" font-size="25">个人 Quan MCP 配置步骤</text>
+<text x="100" y="438" font-size="25">可配置深度工具目录</text>
+<text x="660" y="438" font-size="25">缺依赖时停止并报告</text>
+<text x="100" y="522" font-size="25" fill="#8b5700">验收范围 安装资料与只读检查</text>
+<text x="100" y="572" font-size="23" fill="#526878">深度推理与付费视频生成尚待单独验证</text>
+<text x="100" y="646" font-size="20" fill="#526878">人工质量评审估计 50 → 70 分  不代表成片实测分数</text>
+</g>
+</svg>

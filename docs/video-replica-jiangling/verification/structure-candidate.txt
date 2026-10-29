@@ -1,0 +1,20 @@
+PASS README.md exists
+PASS SKILL.md exists at repository root
+PASS examples/ directory exists with at least one file
+WARN scripts/ directory exists but no runnable script candidates were found
+PASS README contains instructional keywords in English or Chinese
+PASS README contains runnable shell code blocks
+PASS SKILL.md contains agent-facing workflow keywords
+PASS no obvious secret-like files found in scanned paths
+
+--- 出生证(birth-checklist) ---
+PASS LICENSE exists
+WARN .claude-plugin/marketplace.json missing
+WARN 缺 demo GIF/视频 —— 产物前置是首屏信任的核心
+WARN README 缺 npx skills add 一行安装
+WARN README 缺 skills.sh 徽章 (https://skills.sh/b/owner/repo)
+
+--- Summary ---
+PASS: 8
+WARN: 5
+FAIL: 0

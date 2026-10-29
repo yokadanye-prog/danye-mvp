@@ -15,6 +15,34 @@ description: |
 
 此 Skill 只编排工具调用，不携带任何 quan 凭证。使用者需要在自己的 WorkBuddy 中配置自己的 quan MCP。找不到 `quantv_list_models`、`quantv_generate_image`、`quantv_upload_media` 或 `quantv_generate_video` 时，停止对应生成步骤并说明缺少连接器，不读取本机配置文件，也不自行构造 HTTP 请求。
 
+## 首次安装与启动检查
+
+分享套件在 `skills/` 下带有三个完整文件夹。先在 WorkBuddy 的技能管理中分别导入并启用 `video-replica-jiangling`、`video-depth-anything`、`qisi-video-remix`；每个文件夹的根目录都应直接包含 `SKILL.md`。只导入本文件不会自动安装另外两个 Skill。按 [安装指南](references/installation.md) 完成后再执行工作流。
+
+| 必需项 | 安装内容 | 首次运行的检查 |
+| --- | --- | --- |
+| video-depth-anything | 套件中的同名完整文件夹，含深度处理脚本 | 能读取 [深度 Skill](../video-depth-anything/SKILL.md)，用户已准备自己的模型环境 |
+| qisi-video-remix | 套件中的同名完整文件夹，保留 references、examples 和 MIT 许可证 | 能读取 [创意 Skill](../qisi-video-remix/SKILL.md) 与交付格式 |
+| 深度模型运行环境 | 用户另行安装 Video Depth Anything、Python 依赖、Small 权重、ffmpeg 和 ffprobe | 按深度 Skill 配置工具目录并运行安装检查，不自动下载权重 |
+| Quan MCP | 使用者自己的平台账号与插件 | 工具列表同时有模型列表、图片生成、素材上传、视频生成和任务查询 |
+
+Quan 平台入口：[jl5180.quantv.com](https://jl5180.quantv.com)。配置教程：[用户提供的飞书文档](https://shikongjikeai.feishu.cn/docx/ZERzd17u9olDGYxStjackVKRndd?from=from_copylink)。本套件附有依据用户截图整理的 [Quan MCP 配置步骤](references/quan-mcp-setup.md)。教程中的示例令牌和路径不能作为用户自己的配置。
+
+开始 Step 0 前逐项报告 `PASS`、`MISSING` 或 `UNVERIFIED`。先检查三个 Skill 的完整文件，再检查深度环境，最后核对当前可用 MCP 工具。缺任何必需项时，列出具体名称和对应安装步骤，停止生成。能够读取相邻目录但宿主尚未注册技能时，可以读取其 `SKILL.md` 检查内容，并提示用户完成导入；不能把文件存在说成技能已启用。安装检查不调用任何图片或视频生成工具。
+
+装完可以先发送：
+
+```text
+使用 video-replica-jiangling，只检查三个 Skill、深度运行环境和 Quan MCP 工具是否齐全。
+列出缺项与安装入口，不生成图片或视频，不读取或展示令牌。
+```
+
+### 两个配套 Skill 的调用范围
+
+`video-depth-anything` 在本编排中只执行深度提取与结果检查。其参考资料里的多个生成候选、重新生成建议不进入本任务；图片与视频的付费提交仍遵循主流程的逐段确认规则。
+
+调用 `qisi-video-remix` 时，明确传入已经确认的题材、人物、场景与片段时间轴。本编排只使用其参考分析、身份图／造型图／场景图提示词和对应片段的动作描述，不启动它的独立故事重写与生成分段流程。主流程负责实际段长，不把片段扩展成十五或三十秒，也不虚构用户已选择过独立分段上限。用户另行要求完整故事改编时，再按 qisi 的原始规则确认单段上限与新的故事方向。
+
 ---
 
 ## 核心约束（铁律，不可违背）
@@ -27,7 +55,7 @@ description: |
 
 ## 凭证与分享边界
 
-1. 分享时只打包此 Skill 文件夹。不要附带 WorkBuddy 的 `mcp.json`、Quan MCP 程序目录、`config.json`、`mcpServers.json`、日志或任何令牌。
+1. 分享完整套件时保留 `skills/` 下三个 Skill 的文件、依赖说明和许可证。不要附带 WorkBuddy 的 `mcp.json`、个人 Quan MCP 程序配置、Python 虚拟环境、模型权重、日志或任何令牌。
 2. Skill 不读取、显示、复制 `QUANTV_ACCESS_TOKEN` 或 `QUANTV_REFRESH_TOKEN`。所有 Quan 操作只能通过当前用户已安装的 MCP 工具完成。
 3. 他人在自己的电脑安装此 Skill 后，如果没有用自己的 Quan 账户配置 MCP，Quan 生成步骤必须停止。不得借用作者的账号、共享令牌或改用直接 HTTP 调用。
 
@@ -45,6 +73,7 @@ description: |
 
 ### Step 0：收原视频
 
+- 先完成上面的首次启动检查；缺项时停在准备阶段。
 - 用户提供本地视频路径（≤30s）。
 - 用 `ffprobe` 核对：时长、分辨率、帧率，并检测硬切点（换装/转场）。
 - 输出分段方案给用户确认：优先按硬切点切，7s 均分作备用，段数 ≤4。
@@ -74,11 +103,11 @@ description: |
 - 再次调用 `qisi-video-remix`：参考「原视频素材 + 深度灰色视频素材」，读取**第一段对应时间轴**内容，产出第一段的视频生成提示词。
 - 本地参考素材先逐个调用 `quantv_upload_media`，将返回的 `url` 放入视频工具对应的素材数组。
 - 视频生成调用 `quantv_generate_video`，参数：
-  - 时长 `duration`：按分段方案（4–20 秒可选档，区间 4–7，末段按剩余）。
+  - 时长 `duration`：按已经确认的分段方案，通常每段 4 至 7 秒，并在实时工具 Schema 允许范围内；末段不足最小时长时先由用户确认调整。
   - 画面比例 `ratio`：16:9 | 9:16 | 1:1 | 4:3 | 3:4（用户选）。
   - 分辨率 `resolution`：**480p | 720p | 1080p**（wan3 实际档位）。
-  - `videos[]`（参考视频，≤2 段）：原视频对应段 + 深度视频对应段（两段合计 ≤15s）。
-  - `images[]`（参考图，≤10 张）：角色资产图 + 造型图 + 场景图。
+  - `videoUrls[]`（参考视频，≤2 段）：原视频对应段 + 深度视频对应段（两段合计 ≤15s）。
+  - `imageUrls[]`（参考图，≤10 张）：角色资产图 + 造型图 + 场景图。
   - `promptExtend`：false（不拓展提示词）；`audio`：false（不生成音频）。
 - **每段只允许一次生成请求**；失败即停，交用户决定。
 - 提交后保存返回的任务 ID，约每 15 秒调用 `quantv_get_task` 查询。查询失败时保留任务 ID，避免重复提交。
@@ -93,7 +122,7 @@ description: |
 严格使用 模特造型图 生成片中唯一人物，模特角色四视图 用于确认该角色服装的正面、侧面、背面与 45 度细节，不得改变配色与款式；场景图 是背景图，不得随便变换场景。
 ```
 
-- 素材绑定关系（@ 名称 ↔ 传入参数）：`原视频` / `深度灰色视频` → `videos[]`；`模特造型图` / `模特角色四视图` / `场景图` → `images[]`。
+- 素材绑定关系（@ 名称 ↔ MCP 参数）：`原视频` / `深度灰色视频` → `videoUrls[]`；`模特造型图` / `模特角色四视图` / `场景图` → `imageUrls[]`。
 - 之后才是画面规格（风格、比例、时长、分辨率）与动作时间线（由 `qisi-video-remix` 按帧识别产出，逐秒列出）。
 
 #### 素材上传与任务查询
@@ -109,6 +138,7 @@ description: |
 
 ## 每一步的「发起前」检查清单
 
+- [ ] 三个 Skill 已安装启用、深度环境与个人 Quan MCP 已检查，无未处理的必需缺项？
 - [ ] 是否已拿到用户明确确认（原视频 OK / 深度视频 OK / 图片 OK / 上一段视频 OK）？
 - [ ] 是否只发起一次生成请求、未重复扣费？
 - [ ] 参数是否以 `quantv_list_models` 实时返回为准（不写死过期档位）？

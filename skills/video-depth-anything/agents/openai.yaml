@@ -1,0 +1,4 @@
+interface:
+  display_name: "Video Depth Anything"
+  short_description: "Create stable grayscale depth videos from source clips."
+  default_prompt: "Use $video-depth-anything to convert my clip into a depth reference and prepare the final motion-replica workflow."

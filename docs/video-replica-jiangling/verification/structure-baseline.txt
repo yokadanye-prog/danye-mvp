@@ -1,0 +1,18 @@
+FAIL README.md does not exist at repository root
+PASS SKILL.md exists at repository root
+FAIL examples/ directory not found and no sample/demo/example references in README
+FAIL scripts/ directory not found and no run commands referenced in README
+PASS SKILL.md contains agent-facing workflow keywords
+PASS no obvious secret-like files found in scanned paths
+
+--- 出生证(birth-checklist) ---
+WARN LICENSE missing (默认 MIT)
+WARN .claude-plugin/marketplace.json missing
+WARN 缺 demo GIF/视频 —— 产物前置是首屏信任的核心
+WARN README 缺 npx skills add 一行安装
+WARN README 缺 skills.sh 徽章 (https://skills.sh/b/owner/repo)
+
+--- Summary ---
+PASS: 3
+WARN: 5
+FAIL: 3

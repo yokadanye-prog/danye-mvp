@@ -1,0 +1,83 @@
+{
+  "scope": "installation_only",
+  "ready_for_manual_runtime_test": true,
+  "generation_tested": false,
+  "checks": [
+    {
+      "name": "video-replica-jiangling",
+      "status": "PASS",
+      "detail": "Required skill files found; enable this skill in WorkBuddy"
+    },
+    {
+      "name": "video-depth-anything",
+      "status": "PASS",
+      "detail": "Required skill files found; enable this skill in WorkBuddy"
+    },
+    {
+      "name": "qisi-video-remix",
+      "status": "PASS",
+      "detail": "Required skill files found; enable this skill in WorkBuddy"
+    },
+    {
+      "name": "ffmpeg",
+      "status": "PASS",
+      "detail": "Available on PATH"
+    },
+    {
+      "name": "ffprobe",
+      "status": "PASS",
+      "detail": "Available on PATH"
+    },
+    {
+      "name": "depth_tool_root",
+      "status": "PASS",
+      "detail": "Tool directory exists"
+    },
+    {
+      "name": "run_streaming.py",
+      "status": "PASS",
+      "detail": "Found"
+    },
+    {
+      "name": "checkpoints/video_depth_anything_vits.pth",
+      "status": "PASS",
+      "detail": "Found"
+    },
+    {
+      "name": "depth_python",
+      "status": "PASS",
+      "detail": "Configured Python exists"
+    },
+    {
+      "name": "depth_python_packages",
+      "status": "PASS",
+      "detail": "Python imports passed; CUDA_AVAILABLE=True"
+    },
+    {
+      "name": "quantv_list_models",
+      "status": "PASS",
+      "detail": "Tool name found"
+    },
+    {
+      "name": "quantv_generate_image",
+      "status": "PASS",
+      "detail": "Tool name found"
+    },
+    {
+      "name": "quantv_upload_media",
+      "status": "PASS",
+      "detail": "Tool name found"
+    },
+    {
+      "name": "quantv_generate_video",
+      "status": "PASS",
+      "detail": "Tool name found"
+    },
+    {
+      "name": "quantv_get_task",
+      "status": "PASS",
+      "detail": "Tool name found"
+    }
+  ],
+  "evidence_note": "Tool names are a local WorkBuddy cache snapshot; credentials and live service availability were not tested."
+}

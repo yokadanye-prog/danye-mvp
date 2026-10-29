@@ -1,0 +1,12 @@
+{
+  "tools": [
+    "quantv_generate_image",
+    "quantv_generate_speech",
+    "quantv_generate_video",
+    "quantv_get_task",
+    "quantv_list_models",
+    "quantv_list_voices",
+    "quantv_upload_media",
+    "quantv_wait_task"
+  ]
+}
