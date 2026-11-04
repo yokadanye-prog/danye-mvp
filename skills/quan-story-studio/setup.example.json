@@ -1,0 +1,8 @@
+{
+  "mcp_config": "<path to your Quan installer generated MCP JSON>",
+  "mcp_server": "quantv-generation",
+  "voice_mp3": "<path to your licensed reference voice MP3>",
+  "voice_reference_id": "<referenceId in your Quan account>",
+  "speech_model_id": "<speech model ID available to your account>",
+  "image_model_id": "<image model ID available to your account>"
+}

@@ -1,0 +1,9 @@
+.quan-story.local.json
+.env
+.env.*
+mcp.json
+*.mp3
+*.wav
+__pycache__/
+.pytest_cache/
+*.pyc

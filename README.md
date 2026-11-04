@@ -26,3 +26,9 @@ FitCal 是一个饮食与运动热量管理 Web 应用。记录按日期保存�
 ## 视频复刻 Skill 套件
 
 [查看安装说明与完整套件目录](docs/video-replica-jiangling/README.md)。三个配套 Skill 分别位于 `skills/video-replica-jiangling`、`skills/video-depth-anything` 和 `skills/qisi-video-remix`，使用者需要自行准备深度模型环境并配置个人 Quan MCP。
+
+## Quan 故事工坊 Skill
+
+[quan-story-studio](skills/quan-story-studio/README.md) 将历史人物口播稿、Quan 配音与配图整理成可编辑的剪映草稿。每位使用者需配置自己的 Quan MCP、API 凭据和授权参考 MP3。技能提供本地预检，缺少个人配置时会停止生成。
+
+[查看鲁班打磨报告](docs/quan-story-studio/LUBAN_REPORT.md)。
