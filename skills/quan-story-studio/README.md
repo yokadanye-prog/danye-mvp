@@ -9,7 +9,7 @@
 把本目录复制到 Agent 的 Skill 目录，例如 Codex 的 `~/.codex/skills/quan-story-studio`。如果本目录放在公开仓库的根目录，也可运行：
 
 ```bash
-npx skills add https://github.com/yokadanye-prog/danye-mvp --skill quan-story-studio
+npx skills add https://github.com/yokadanye-prog/danye-mvp --skill quan-story-studio --agent codex --copy --yes
 ```
 
 安装后，按 [个人配置说明](references/setup.md) 配置自己的 Quan MCP、API 凭据、参考 MP3 和音色 ID。在技能目录复制 `setup.example.json` 为 `.quan-story.local.json`，填写后从技能目录运行：

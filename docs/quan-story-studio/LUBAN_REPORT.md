@@ -32,16 +32,17 @@
 2. `python skills/quan-story-studio/examples/render_demo.py`：从实际预检输出重生成 `preflight-demo.gif`。
 3. 固定私人音色与模型 ID 扫描：零命中。
 4. `quan_story.py doctor`：当前测试电脑缺 `pyJianYingDraft`，因此本轮未实测剪映导出。未发起付费 Quan 生成，也未验证个人账户里的音色与模型。
+5. 从 GitHub 公网执行 `npx skills add https://github.com/yokadanye-prog/danye-mvp --skill quan-story-studio --agent codex --copy --yes`，返回 `status: installed`，项目目录中出现完整 Skill 文件。安装后的空模板预检按预期退出码 1。
 
 ## 5. 回炉清单
 
-安装后从公网核对 Skills CLI 是否发现 `quan-story-studio`。首次真实使用时验证 Quan 音色列表、模型列表和一次小样，保留不含令牌的验证记录。剪映草稿需在剪映中打开验收。后续根据使用者反馈检查不同客户端的 MCP 配置格式。
+首次真实使用时验证 Quan 音色列表、模型列表和一次小样，保留不含令牌的验证记录。剪映草稿需在剪映中打开验收。后续根据使用者反馈检查不同客户端的 MCP 配置格式。
 
 ## 出师证书
 
 | 项目 | 结果 |
 | --- | --- |
-| 安装入口 | README 与个人配置说明齐全 |
+| 安装入口 | README 与个人配置说明齐全，公网安装已验证 |
 | 私人 ID | 已移除固定音色与模型 ID |
 | 预检 | 缺配置时拒绝调用，测试通过 |
 | 完整成片验证 | 等待个人 Quan 账户与剪映环境实测 |
