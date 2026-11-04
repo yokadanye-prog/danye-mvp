@@ -6,7 +6,7 @@
 
 ## 安装
 
-把本目录复制到 Agent 的 Skill 目录，例如 Codex 的 `~/.codex/skills/quan-story-studio`。如果本目录放在公开仓库的根目录，也可运行：
+把本目录复制到 Agent 的 Skill 目录，例如 Codex 的 `~/.codex/skills/quan-story-studio`。从本仓库安装到 Codex 可运行：
 
 ```bash
 npx skills add https://github.com/yokadanye-prog/danye-mvp --skill quan-story-studio --agent codex --copy --yes
