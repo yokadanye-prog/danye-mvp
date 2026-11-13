@@ -1,0 +1,4 @@
+interface:
+  display_name: "Vibe 口播视频工作流"
+  short_description: "逐句图案动画，先选配音试片，再由 Codex 完成成片"
+  default_prompt: "使用 $vibe-voiceover-video，按 Gemini 定稿和正式配音制作逐句图案动画；huashu 主控，shotcraft 前置适配全片动效，先完成 G0/G1 与20至30秒试片，再由 Codex 连续完成代码复核、渲染、独立审片和修复。"

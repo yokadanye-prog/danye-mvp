@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "G0": {
+    "status": "pending", "input_fingerprint": "", "evidence": [],
+    "decision": {"mode": "", "record": {}},
+    "review_capability": {"status": "pending", "mode": "", "sample_ms": 0, "evidence": {}}
+  },
+  "G1": {
+    "status": "pending", "input_fingerprint": "", "plan_fingerprint": "", "evidence": [],
+    "decision": {"mode": "", "record": {}}, "previews": []
+  },
+  "G2": {
+    "status": "pending", "input_fingerprint": "", "plan_fingerprint": "", "evidence": [],
+    "code_review": {"status": "pending", "independent": false, "reviewer_id": "", "evidence": {}},
+    "sample_review": {}, "code_snapshot": [], "runtime_manifest": {}, "asset_usage": {}
+  },
+  "G3": {
+    "status": "pending", "input_fingerprint": "", "plan_fingerprint": "", "evidence": [],
+    "video": {}, "semantic": {"video_sha256": "", "report": {}},
+    "technical": {"video_sha256": "", "report": {}},
+    "motion": {"video_sha256": "", "report": {}, "yellow_notes": []},
+    "open_issues": ["finish reviews before release"]
+  }
+}

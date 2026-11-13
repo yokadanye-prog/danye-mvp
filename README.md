@@ -32,3 +32,11 @@ FitCal 是一个饮食与运动热量管理 Web 应用。记录按日期保存�
 [quan-story-studio](skills/quan-story-studio/README.md) 将历史人物口播稿、Quan 配音与配图整理成可编辑的剪映草稿。每位使用者需配置自己的 Quan MCP、API 凭据和授权参考 MP3。技能提供本地预检，缺少个人配置时会停止生成。
 
 [查看鲁班打磨报告](docs/quan-story-studio/LUBAN_REPORT.md)。
+
+## Vibe 口播视频 Skill
+
+[查看 Vibe 口播视频工作流](skills/vibe-voiceover-video/README.md)：使用定稿文稿、正式 MP3 与素材制作逐句动画视频，先试片，再按同一时间轴完成成片。
+
+![Vibe 口播视频制作流程](skills/vibe-voiceover-video/assets/user-workflow.png)
+
+安装与四 Skill 分享包说明见 [INSTALL.md](skills/vibe-voiceover-video/INSTALL.md)。
