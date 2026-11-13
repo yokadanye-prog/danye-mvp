@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Vibe 工作流：用户参与与确认</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f5f7f1;color:#16313b;font-family:"Microsoft YaHei",sans-serif}main{max-width:1780px;margin:auto;padding:42px}.top{display:flex;justify-content:space-between;color:#0c6b63;font-size:17px;letter-spacing:1px}.version{border:1px solid #c8d7cd;border-radius:20px;padding:5px 13px;font-size:14px}h1{font-size:44px;margin:20px 0 13px}.lead{font-size:23px;color:#576c70;line-height:1.7}.legend{display:flex;gap:25px;align-items:center;font-size:17px;margin:22px 0}.dot{width:13px;height:13px;display:inline-block;border-radius:50%;margin-right:7px}.orange{background:#c2763d}.blue{background:#397d9f}.green{background:#39845e}.user{display:grid;grid-template-columns:1fr 1fr 1.15fr;gap:28px}.card{border:2px solid #d5b28d;border-radius:15px;background:#fffaf0;padding:25px;position:relative}.card+.card:before{content:'→';position:absolute;left:-27px;top:139px;font-size:28px;color:#8d9e94}.tag{font-size:16px;font-weight:bold;color:#aa5828;letter-spacing:1px}.card h2{font-size:29px;margin:15px 0}.card p{font-size:19px;line-height:1.9;color:#4d6269;margin:8px 0}.small{font-size:16px!important;padding-top:13px;border-top:1px solid #e6d7bd}.card ul{padding-left:23px;font-size:20px;line-height:1.9;margin:8px 0 15px}.card button{border:1px solid #c99764;background:white;color:#8c5026;border-radius:6px;padding:8px 13px;font:inherit;font-size:16px;cursor:pointer}.down{height:46px;display:flex;justify-content:flex-end;padding-right:280px;color:#397d9f;align-items:center;font-size:29px}.auto{background:#edf5f7;border:1px solid #a4c4d0;border-radius:15px;padding:24px}.auto h2{font-size:26px;margin:0 0 7px;color:#245d78}.auto>p{font-size:18px;color:#526b73;line-height:1.6;margin:0 0 21px}.pipeline{display:grid;grid-template-columns:repeat(6,1fr);gap:20px}.step{background:white;border:1px solid #b5cbd2;border-radius:9px;padding:17px 13px;position:relative}.step:not(:last-child):after{content:'→';position:absolute;right:-20px;top:48px;font-size:21px;color:#668b98}.step b{display:block;font-size:21px;margin-bottom:10px}.step span{font-size:16px;line-height:1.6;color:#5d737a}.step.final{background:#e5f2e8;border-color:#8fbc9d}.return{margin:22px 0 18px;padding:20px 24px;border-left:5px solid #c2763d;background:#fff9ef}.return b{font-size:22px}.return p{font-size:18px;line-height:1.8;color:#5a6d70;margin:9px 0 0}.rules{display:grid;grid-template-columns:repeat(4,1fr);gap:13px}.rule{background:#e9eee5;padding:17px;border-radius:7px;font-size:18px;font-weight:bold;color:#225b50}.rule span{display:block;font-weight:normal;font-size:15px;color:#5a7069;line-height:1.6;margin-top:8px}.detail{padding:17px 21px;background:#fff;border:1px solid #ccd9cf;border-radius:9px;margin-top:19px;min-height:77px;font-size:17px;color:#5c7074;line-height:1.8}.foot{margin-top:16px;font-size:14px;color:#6b7f7e;display:flex;justify-content:space-between;gap:20px;line-height:1.7}@media(max-width:1050px){main{min-width:1050px;padding:25px}h1{font-size:35px}.card{padding:18px}.card h2{font-size:24px}.card p,.card ul{font-size:17px}.pipeline{gap:12px}.step{padding:13px 9px}.step b{font-size:18px}.step span{font-size:14px}.step:not(:last-child):after{right:-13px;font-size:17px}}@media print{button{display:none}main{padding:10px}}
+@media(max-width:700px){main{min-width:0;padding:20px}.top{flex-wrap:wrap;gap:12px}.version{font-size:12px}h1{font-size:30px;line-height:1.5}.lead{font-size:18px}.legend{flex-wrap:wrap;gap:12px;font-size:14px}.user{grid-template-columns:1fr;gap:25px}.card+.card:before{content:'↓';left:48%;top:-28px}.card h2{font-size:25px}.down{justify-content:center;padding:0}.pipeline{grid-template-columns:1fr 1fr;gap:12px}.step:not(:last-child):after{display:none}.auto{padding:18px}.auto h2{font-size:23px}.rules{grid-template-columns:1fr 1fr}.return{padding:18px}.return b{font-size:20px}.return p{font-size:16px}.detail{font-size:16px}.foot{flex-direction:column;gap:8px}}
+</style>
+<main>
+<div class="top"><b>VIBE / 你需要参与的地方</b><span class="version">工作流更新 · 2026.11.12</span></div>
+<h1>准备好内容，确认两处关键选择</h1>
+<p class="lead">Gemini 定稿 → 正式配音 → huashu 主控逐句动画 → shotcraft 全片适配 → Codex 实现、复核、渲染与修复。</p>
+<div class="legend"><span><i class="dot orange"></i>用户准备与选择</span><span><i class="dot blue"></i>Codex 内部连续执行</span><span><i class="dot green"></i>通过后交付</span></div>
+<div class="user">
+ <section class="card"><div class="tag">01 · 你先准备</div><h2>把正式输入一次给齐</h2><ul><li>Gemini 定稿的口播文字</li><li>最终版 MP3 与可用素材</li><li>时长、画幅、用途与禁用画面</li></ul><p>Codex 实测声音、切语义句、登记素材用途，并先验证音画审片能力。</p><button data-id="prepare">查看准备重点</button></section>
+ <section class="card"><div class="tag">02 · G0 内容闸口</div><h2>有歧义的地方再判断</h2><ul><li>知识结论是否正确</li><li>是否使用这版配音</li><li>素材具体解释什么、用在哪里</li></ul><p class="small">你已经定稿或明确授权的内容直接沿用。表格、时间轴和能力检查由 Codex 完成。</p><button data-id="g0">查看确认范围</button></section>
+ <section class="card"><div class="tag">03 · G1 视觉闸口</div><h2>看过配音短片再选择</h2><ul><li>20至30秒实际配音预演</li><li>全片各段动效推荐与替代项</li><li>选画风、动作密度和读图节奏</li></ul><p class="small">两版预演都要逐句有相关动画。已明确委托自主选择时，Codex 按委托记录执行。</p><button data-id="g1">查看审看重点</button></section>
+</div>
+<div class="down">↓</div>
+<section class="auto"><h2>G1 通过后，交给 Codex 连续完成</h2><p>以下是内部制作闸口；普通修复和重新渲染沿用既有授权。</p><div class="pipeline">
+ <div class="step"><b>逐句实现</b><span>图案、对象和动作<br>共用声音时间轴</span></div>
+ <div class="step"><b>G2 复核样段</b><span>独立代码审查<br>素材和关键词对齐</span></div>
+ <div class="step"><b>整片渲染</b><span>huashu 主流程<br>统一帧数与混音</span></div>
+ <div class="step"><b>G3 真实审片</b><span>独立有声覆盖全片<br>技术与动效核验</span></div>
+ <div class="step"><b>修复重渲</b><span>问题清零后复核<br>红灯、待验均阻断</span></div>
+ <div class="step final"><b>接收成片</b><span>MP4、SRT、工程<br>原声音与审片记录</span></div>
+</div></section>
+<div class="return"><b>哪些变化才需要再次找你确认？</b><p>改知识结论 · 更换声音 · 改选定画风 · 改素材用途 · 新增费用 · 改交付范围。Codex 说明影响，只确认发生变化的那一项。</p></div>
+<div class="rules"><div class="rule">每句话有对应动画<span>多句可以共用一幅图逐步变化</span></div><div class="rule">全程一份主时间轴<span>关键词、动画、配音、字幕一致</span></div><div class="rule">有声语义审片覆盖全片<span>静帧和音轨比较单独记录</span></div><div class="rule">红灯与待验先解决<span>原证据绑定当前输入和成片</span></div></div>
+<div class="detail" id="detail">你重点看：内容是否准确、短片是否帮助理解、动作是否留足读图时间。代码、表格和渲染由 Codex 执行。检查器能拦截记录冲突；实际观感仍由配音短片和真实成片审查验证。</div>
+<div class="foot"><span>本次验证：结构、行为干跑、反例和历史报告回放。观感提升待下一支真实短片验证。</span><span>已安装 Skill：vibe-voiceover-video</span></div>
+</main>
+<script>
+const detail={prepare:'准备重点：提供唯一正式声音和已定稿文本，标明每组素材的含义、仅用一次或限定章节等要求。目标时长若与声音时长冲突，Codex 先说明差异，再让你选择要调整的内容。',g0:'G0 只处理真正需要你决定的歧义。既有定稿、素材职责、声音版本和明确自主委托直接应用；检查器不会代替你的真实决定。Codex 负责把确认来源和适用范围记录清楚。',g1:'G1 看短片时重点判断三件事：能否复述讲解结论、每句动画是否解释了相应对象、动作后是否来得及看清。全片适配表还应覆盖正文、真实界面和结尾，避免只做漂亮片头。'};
+document.querySelectorAll('button[data-id]').forEach(button=>button.addEventListener('click',()=>{document.getElementById('detail').textContent=detail[button.dataset.id];}));
+</script>
+</html>

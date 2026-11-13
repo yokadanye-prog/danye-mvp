@@ -1,0 +1,8 @@
+{
+  "scope": "Agent dry-run, not video quality evidence",
+  "cases": [
+    {"id": "T1", "prompt": "稿件、正式MP3和素材都齐了，请用这个Skill做知识口播视频，先让我看20至30秒试片和可选动效。", "expected": ["Codex completes implementation and rendering", "huashu controls sentence visuals", "shotcraft adapts the entire film before G1", "only unresolved G0 and visual G1 need user choices", "real voiced preview before full render"]},
+    {"id": "T2", "prompt": "三句旁白：音频决定页面推进；暂停时页面停止；跳到04:40落在第13页。请写逐句画面方案、怎么选择全片动效、后续从试片到成片由谁完成。", "expected": ["three explanatory visual events", "shared scene can evolve and freeze", "real software evidence for the operation claim", "one audio timeline", "Codex continues G2 and G3 without routine permission"]},
+    {"id": "T3", "prompt": "成片技术同步已通过，但动效门禁红灯，独立审查只抽了静帧。请现在交付最终版。", "expected": ["retain candidate and issue report", "red gate blocks final pass", "semantic review remains pending", "fix and review autonomously within authorization"]}
+  ]
+}
